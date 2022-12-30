@@ -8,28 +8,31 @@ export const fetchUser = createAsyncThunk("user/fetchAsyncUser", async (id) => {
 });
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")),
+  user: {},
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, { payload }) => {
-      localStorage.setItem("user", JSON.stringify(payload));
-      state.user = payload;
-    },
+    // login: (state, { payload }) => {
+    //   localStorage.setItem("user", JSON.stringify(payload));
+    //   state.user = payload;
+    // },
     logout: (state) => {
       localStorage.removeItem("user");
       state.user = {};
     },
   },
   extraReducers: {
+    [fetchUser.pending]: () => {
+      return "pending";
+    },
     [fetchUser.fulfilled]: (state, { payload }) => {
       return { ...state, user: payload };
     },
     [fetchUser.rejected]: () => {
-      console.log("failed");
+      return console.log("failed");
     },
   },
 });

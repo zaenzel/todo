@@ -10,29 +10,31 @@ import "./Auth.css";
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(getUser);
 
-  const [id, setId] = useState(0);
   const [status, setStatus] = useState(false);
   const [key, setKey] = useState(0);
 
+  /*
   const validate = (key) => {
-    dispatch(login(user[0]));
     users.map((e, i) => {
       if (e === parseInt(key)) {
-        setId(i + 1);
+        localStorage.setItem("user", i + 1);
+        dispatch(fetchUser(i + 1));
+        dispatch(fetchTodos(i + 1));
         setStatus(true);
       }
     });
   };
-
-  useEffect(() => {
-    dispatch(fetchUser(id));
-  }, [id]);
+  */
 
   const handleLogin = (e) => {
     e.preventDefault();
-    validate(key);
+    users.map((e, i) => {
+      if (e === parseInt(key)) {
+        localStorage.setItem("user", i + 1);
+        setStatus(true);
+      }
+    });
     setTimeout(() => {
       navigate("/home");
     }, 2500);
